@@ -1471,13 +1471,6 @@
       "position": "Agent",
       "isAdmin": false
     }
-      {
-      "id": "123457",
-      "name": "Ryan Cunanan",
-      "department": "Support",
-      "position": "Agent",
-      "isAdmin": true
-    }
   ],
   "payPeriods": [],
   "payrollEntries": [],
