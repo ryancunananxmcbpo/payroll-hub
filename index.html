@@ -33,6 +33,17 @@
 body{background:var(--bg);color:var(--txt);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased;}
 body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.07) 2px,rgba(0,0,0,0.07) 4px);pointer-events:none;z-index:9999;}
 
+/* ── MOBILE BLOCK ── */
+#mobile-block{display:none;position:fixed;inset:0;background:var(--bg);z-index:99999;align-items:center;justify-content:center;flex-direction:column;padding:32px;text-align:center;}
+.mb-icon{font-size:64px;margin-bottom:24px;}
+.mb-title{font-size:22px;font-weight:800;margin-bottom:12px;letter-spacing:-0.02em;}
+.mb-sub{font-size:14px;color:var(--muted);line-height:1.7;max-width:300px;}
+.mb-badge{display:inline-flex;align-items:center;gap:8px;background:var(--rd);border:1px solid rgba(255,79,107,0.25);border-radius:30px;padding:8px 20px;font-family:var(--mono);font-size:11px;color:var(--red);margin-top:24px;letter-spacing:0.08em;text-transform:uppercase;}
+@media(max-width:768px){
+  #mobile-block{display:flex;}
+  #login-view,#app-view{display:none!important;}
+}
+
 /* ── VIEWS ── */
 .view{display:none;}
 .view.active{display:block;}
@@ -208,6 +219,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 </head>
 <body>
 
+<!-- ═══ MOBILE BLOCK ═══ -->
+<div id="mobile-block">
+  <div class="mb-icon">🖥️</div>
+  <div class="mb-title">Desktop Only</div>
+  <div class="mb-sub">This system is designed for desktop use only. Please access it from a computer or laptop.</div>
+  <div class="mb-badge">⛔ Mobile Access Restricted</div>
+</div>
+
 <!-- ═══ LOGIN ═══ -->
 <div id="login-view" class="view active">
   <div class="login-wrap">
@@ -347,8 +366,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ══════════════════════════════════════ */
 const CFG = {
   dataUrl:      './data/payroll.json',
-  clockFlowUrl: 'https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA',
-  liveSync:     true
+  clockFlowUrl: 'PASTE_YOUR_POWER_AUTOMATE_FLOW_2_URL_HERE',
+  liveSync:     false   // change to true once Flow 2 is ready
 };
 
 /* ══════════════════════════════════════
