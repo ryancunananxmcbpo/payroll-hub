@@ -236,19 +236,14 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     </div>
     <div class="login-card">
       <div class="login-h">Agent Sign In</div>
-      <div class="login-sub">Enter your WF Onboarding ID and full name exactly as registered.</div>
+      <div class="login-sub">Enter your <strong style="color:var(--txt)">WF Onboarding ID</strong> or <strong style="color:var(--txt)">Employee ID (EID)</strong> to sign in.</div>
 
       <div class="err-box" id="login-err"></div>
 
       <div class="field">
-        <label class="field-label" for="inp-id">WF Onboarding ID</label>
-        <input id="inp-id" class="field-input" type="text" placeholder="e.g. XMC WF-20251475" autocomplete="off" spellcheck="false" />
-        <div class="field-hint">Provided by your payroll admin</div>
-      </div>
-      <div class="field">
-        <label class="field-label" for="inp-name">Full Name</label>
-        <input id="inp-name" class="field-input" type="text" placeholder="e.g. Maraiah Badana" autocomplete="off" />
-        <div class="field-hint">First name then last name, as on record</div>
+        <label class="field-label" for="inp-id">WF Onboarding ID or EID</label>
+        <input id="inp-id" class="field-input" type="text" placeholder="e.g. XMC WF-20251475 or K-0025-031" autocomplete="off" spellcheck="false" />
+        <div class="field-hint">Either ID is accepted — provided by your payroll admin</div>
       </div>
 
       <div class="loading-bar" id="lbar"><div class="loading-fill"></div></div>
@@ -408,35 +403,32 @@ function startClock() {
 }
 
 /* ══════════════════════════════════════
-   LOGIN
+   LOGIN — accepts WF Onboarding ID or EID
 ══════════════════════════════════════ */
 function doLogin() {
-  const rawId   = document.getElementById('inp-id').value.trim();
-  const rawName = document.getElementById('inp-name').value.trim();
-  const errEl   = document.getElementById('login-err');
-  const btn     = document.getElementById('btn-login');
+  const rawId = document.getElementById('inp-id').value.trim();
+  const errEl = document.getElementById('login-err');
+  const btn   = document.getElementById('btn-login');
 
   errEl.classList.remove('show');
-  ['inp-id','inp-name'].forEach(id => document.getElementById(id).classList.remove('shake'));
+  document.getElementById('inp-id').classList.remove('shake');
 
-  if (!rawId || !rawName) {
-    showLoginErr('Please enter both your WF Onboarding ID and Full Name.');
-    if (!rawId)   shake('inp-id');
-    if (!rawName) shake('inp-name');
+  if (!rawId) {
+    showLoginErr('Please enter your WF Onboarding ID or Employee ID (EID).');
+    shake('inp-id');
     return;
   }
 
-  const normId   = rawId.toUpperCase().trim();
-  const normName = rawName.toLowerCase().replace(/\s+/g,' ').trim();
+  const normId = rawId.toUpperCase().trim();
 
   const emp = (S.data.employees || []).find(e =>
-    e.id.toUpperCase() === normId &&
-    e.name.toLowerCase().replace(/\s+/g,' ').trim() === normName
+    e.id.toUpperCase() === normId ||
+    (e.eid && e.eid !== null && e.eid.toUpperCase() === normId)
   );
 
   if (!emp) {
-    showLoginErr('WF Onboarding ID and Full Name do not match. Check your details or contact your payroll admin.');
-    shake('inp-id'); shake('inp-name');
+    showLoginErr('ID not found. Please check your WF Onboarding ID or EID, or contact your payroll admin.');
+    shake('inp-id');
     return;
   }
 
@@ -484,8 +476,7 @@ function doLogout() {
   S.user = null; S.session = [];
   document.getElementById('app-view').classList.remove('active');
   document.getElementById('login-view').classList.add('active');
-  document.getElementById('inp-id').value   = '';
-  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-id').value = '';
   document.getElementById('login-err').classList.remove('show');
   document.querySelector('.admin-tab').style.display = 'none';
 }
