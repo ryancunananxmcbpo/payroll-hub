@@ -245,6 +245,11 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <input id="inp-id" class="field-input" type="text" placeholder="e.g. XMC WF-20251475 or K-0025-031" autocomplete="off" spellcheck="false" />
         <div class="field-hint">Either ID is accepted — provided by your payroll admin</div>
       </div>
+      <div class="field">
+        <label class="field-label" for="inp-name">Full Name</label>
+        <input id="inp-name" class="field-input" type="text" placeholder="e.g. Maraiah Badana" autocomplete="off" />
+        <div class="field-hint">Optional — first name then last name</div>
+      </div>
 
       <div class="loading-bar" id="lbar"><div class="loading-fill"></div></div>
       <button class="btn-login" id="btn-login" onclick="doLogin()">Sign In →</button>
@@ -477,6 +482,7 @@ function doLogout() {
   document.getElementById('app-view').classList.remove('active');
   document.getElementById('login-view').classList.add('active');
   document.getElementById('inp-id').value = '';
+  document.getElementById('inp-name').value = '';
   document.getElementById('login-err').classList.remove('show');
   document.querySelector('.admin-tab').style.display = 'none';
 }
