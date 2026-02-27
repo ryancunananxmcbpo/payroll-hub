@@ -366,8 +366,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ══════════════════════════════════════ */
 const CFG = {
   dataUrl:      './data/payroll.json',
-  clockFlowUrl: https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA,
-  liveSync:     false   // change to true once Flow 2 is ready
+  clockFlowUrl: 'https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA',
+  liveSync:     true
 };
 
 /* ══════════════════════════════════════
@@ -384,9 +384,12 @@ const S = { data: null, user: null, session: [] };
     const r = await fetch(CFG.dataUrl + '?_=' + Date.now());
     if (!r.ok) throw new Error();
     S.data = await r.json();
-  } catch {
+  } catch(err) {
     S.data = { employees:[], payPeriods:[], payrollEntries:[], clockRecords:[] };
-    toast('Could not load agent data. Check data/payroll.json.', 'err');
+    console.error('Failed to load payroll.json:', err);
+    const errEl = document.getElementById('login-err');
+    errEl.textContent = '⚠  Could not load agent data. Make sure data/payroll.json is on the server.';
+    errEl.classList.add('show');
   }
 })();
 
@@ -424,12 +427,22 @@ function doLogin() {
     return;
   }
 
+  // Guard: data not loaded yet
+  if (!S.data || !S.data.employees || S.data.employees.length === 0) {
+    showLoginErr('Agent data is still loading. Please wait a moment and try again.');
+    shake('inp-id');
+    return;
+  }
+
   const normId = rawId.toUpperCase().trim();
 
-  const emp = (S.data.employees || []).find(e =>
+  const emp = S.data.employees.find(e =>
     e.id.toUpperCase() === normId ||
-    (e.eid && e.eid !== null && e.eid.toUpperCase() === normId)
+    (e.eid && e.eid.toUpperCase() === normId)
   );
+
+  console.log('Login attempt:', normId, '→', emp ? emp.name : 'NOT FOUND');
+  console.log('Total employees loaded:', S.data.employees.length);
 
   if (!emp) {
     showLoginErr('ID not found. Please check your WF Onboarding ID or EID, or contact your payroll admin.');
