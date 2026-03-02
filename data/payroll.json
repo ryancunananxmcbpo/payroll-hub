@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-27T00:00:00Z",
+  "lastUpdated": "2026-03-02T00:00:00Z",
   "employees": [
     {
       "id": "XMC WF-20251475",
@@ -3237,6 +3237,126 @@
       "id": "XMC WF-20261955",
       "eid": null,
       "name": "Lou Quimco",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026001",
+      "eid": null,
+      "name": "Alyssa Ugalde",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026002",
+      "eid": null,
+      "name": "Larsen Castro",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026003",
+      "eid": null,
+      "name": "Francisco Acuja",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026004",
+      "eid": null,
+      "name": "Dinah Almodiente",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026005",
+      "eid": null,
+      "name": "John Estanislao",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026006",
+      "eid": null,
+      "name": "Regine Padis",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026007",
+      "eid": null,
+      "name": "Oren Meneses",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026008",
+      "eid": null,
+      "name": "Rosalinda Camba",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026009",
+      "eid": null,
+      "name": "Roni Ann <arie Coasare",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026010",
+      "eid": null,
+      "name": "Erly Carlos",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026011",
+      "eid": null,
+      "name": "Glenn Elocre",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026012",
+      "eid": null,
+      "name": "Christian Mamaclay",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026013",
+      "eid": null,
+      "name": "Trixie Recede",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026014",
+      "eid": null,
+      "name": "Storm Saballero",
+      "department": "Support",
+      "position": "Agent",
+      "isAdmin": false
+    },
+    {
+      "id": "XMC WF-1132026015",
+      "eid": null,
+      "name": "Maria Dizon",
       "department": "Support",
       "position": "Agent",
       "isAdmin": false
