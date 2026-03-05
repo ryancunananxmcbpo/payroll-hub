@@ -73,6 +73,22 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 @keyframes shake{0%,100%{transform:translateX(0);}20%{transform:translateX(-6px);}60%{transform:translateX(6px);}}
 .field-hint{font-size:11px;color:var(--muted);margin-top:6px;font-family:var(--mono);}
 
+/* ── SELECT ── */
+.field-select{width:100%;background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);padding:13px 40px 13px 16px;color:var(--txt);font-family:var(--sans);font-size:15px;font-weight:500;outline:none;appearance:none;-webkit-appearance:none;cursor:pointer;transition:border-color 0.18s,box-shadow 0.18s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a566e' stroke-width='1.8' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+.field-select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(0,229,160,0.08);}
+.field-select option{background:var(--s2);color:var(--txt);}
+.field-select.shake{animation:shake 0.35s ease;border-color:var(--red);}
+.field-select.unset{color:var(--muted);}
+
+/* ── TWO-COL FIELD ROW ── */
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px;}
+.field-row .field{margin-bottom:0;}
+
+/* ── DIVIDER ── */
+.login-divider{display:flex;align-items:center;gap:10px;margin:22px 0 20px;}
+.login-divider::before,.login-divider::after{content:'';flex:1;height:1px;background:var(--bdr);}
+.login-divider span{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;white-space:nowrap;}
+
 .err-box{background:var(--rd);border:1px solid rgba(255,79,107,0.25);border-radius:var(--r);padding:12px 15px;font-size:13px;color:var(--red);font-family:var(--mono);margin-bottom:18px;display:none;line-height:1.5;}
 .err-box.show{display:block;}
 
@@ -89,14 +105,22 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 /* ── APP SHELL ── */
 #app-view.active{display:flex;flex-direction:column;min-height:100vh;}
 
-.topbar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 28px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.top-brand{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:0.16em;color:var(--green);text-transform:uppercase;}
-.top-right{display:flex;align-items:center;gap:10px;}
-.agent-chip{background:var(--s2);border:1px solid var(--bdr);border-radius:30px;padding:5px 14px 5px 7px;display:flex;align-items:center;gap:8px;}
+.topbar{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:12px;}
+.top-brand{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:0.16em;color:var(--green);text-transform:uppercase;flex-shrink:0;}
+.top-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.agent-chip{background:var(--s2);border:1px solid var(--bdr);border-radius:30px;padding:5px 14px 5px 7px;display:flex;align-items:center;gap:8px;flex-shrink:0;}
 .agent-av{width:26px;height:26px;border-radius:50%;background:var(--gd);border:1px solid rgba(0,229,160,0.28);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);font-family:var(--mono);flex-shrink:0;}
 .agent-name-sm{font-size:13px;font-weight:600;line-height:1.2;}
 .agent-id-sm{font-size:10px;color:var(--muted);font-family:var(--mono);}
-.btn-out-sm{background:transparent;border:1px solid var(--bdr);border-radius:8px;padding:6px 14px;color:var(--muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:all 0.15s;letter-spacing:0.05em;}
+
+/* ── META BADGES in topbar ── */
+.meta-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;border:1px solid;white-space:nowrap;}
+.meta-role{background:var(--bd);border-color:rgba(77,159,255,0.3);color:var(--blue);}
+.meta-wave{background:var(--ad);border-color:rgba(255,179,64,0.3);color:var(--amber);}
+.meta-loc{background:var(--gd);border-color:rgba(0,229,160,0.25);color:var(--green);}
+.top-meta{display:flex;align-items:center;gap:6px;}
+
+.btn-out-sm{background:transparent;border:1px solid var(--bdr);border-radius:8px;padding:6px 14px;color:var(--muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:all 0.15s;letter-spacing:0.05em;flex-shrink:0;}
 .btn-out-sm:hover{border-color:var(--red);color:var(--red);}
 
 .tabs{background:var(--sur);border-bottom:1px solid var(--bdr);padding:0 28px;display:flex;gap:2px;overflow-x:auto;}
@@ -104,7 +128,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .tab:hover{color:var(--txt);}
 .tab.active{color:var(--green);border-bottom-color:var(--green);}
 
-.content{flex:1;padding:30px 28px;max-width:960px;width:100%;margin:0 auto;}
+.content{flex:1;padding:30px 28px;max-width:1020px;width:100%;margin:0 auto;}
 .panel{display:none;}
 .panel.active{display:block;}
 
@@ -141,8 +165,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .cnt{background:var(--s3);border:1px solid var(--bdr2);border-radius:20px;padding:2px 10px;font-size:11px;font-family:var(--mono);color:var(--muted);}
 
 .tbl{width:100%;border-collapse:collapse;}
-.tbl th{text-align:left;padding:10px 22px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);background:var(--s2);border-bottom:1px solid var(--bdr);}
-.tbl td{padding:13px 22px;font-size:13px;border-bottom:1px solid rgba(35,43,62,0.45);}
+.tbl th{text-align:left;padding:10px 16px;font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);background:var(--s2);border-bottom:1px solid var(--bdr);}
+.tbl td{padding:12px 16px;font-size:13px;border-bottom:1px solid rgba(35,43,62,0.45);}
 .tbl tr:last-child td{border-bottom:none;}
 .tbl tr:hover td{background:rgba(255,255,255,0.013);}
 .empty td{text-align:center;padding:36px;color:var(--muted);font-family:var(--mono);}
@@ -205,16 +229,6 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .toast.ok{border-color:rgba(0,229,160,0.35);color:var(--green);}
 .toast.warn{border-color:rgba(255,179,64,0.35);color:var(--amber);}
 .toast.err{border-color:rgba(255,79,107,0.35);color:var(--red);}
-
-@media(max-width:600px){
-  .login-card{padding:32px 22px;}
-  .content{padding:20px 16px;}
-  .topbar,.tabs{padding:0 16px;}
-  .clock-card{padding:26px 18px;}
-  .tbl th,.tbl td{padding:10px 14px;}
-  .slip-nums{grid-template-columns:repeat(2,1fr);}
-  .btn-clock{min-width:130px;font-size:14px;padding:15px 18px;}
-}
 </style>
 </head>
 <body>
@@ -240,6 +254,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
       <div class="err-box" id="login-err"></div>
 
+      <!-- ID + NAME -->
       <div class="field">
         <label class="field-label" for="inp-id">WF Onboarding ID or EID</label>
         <input id="inp-id" class="field-input" type="text" placeholder="e.g. XMC WF-20251475 or K-0025-031" autocomplete="off" spellcheck="false" />
@@ -251,6 +266,58 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
         <div class="field-hint">Optional — first name then last name</div>
       </div>
 
+      <!-- DIVIDER -->
+      <div class="login-divider"><span>Role &amp; Assignment</span></div>
+
+      <!-- ROLE + LOCATION (side-by-side) -->
+      <div class="field-row">
+        <div class="field">
+          <label class="field-label" for="inp-role">Role</label>
+          <select id="inp-role" class="field-select">
+            <option value="" disabled selected hidden>Select role…</option>
+            <option value="TSR">TSR</option>
+            <option value="CSR">CSR</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="inp-location">Site Location</label>
+          <select id="inp-location" class="field-select">
+            <option value="" disabled selected hidden>Select site…</option>
+            <option value="Cebu">Cebu</option>
+            <option value="Manila">Manila</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- WAVE -->
+      <div class="field">
+        <label class="field-label" for="inp-wave">Wave</label>
+        <select id="inp-wave" class="field-select">
+          <option value="" disabled selected hidden>Select wave…</option>
+          <option value="Wave 1">Wave 1</option>
+          <option value="Wave 2">Wave 2</option>
+          <option value="Wave 3">Wave 3</option>
+          <option value="Wave 4">Wave 4</option>
+          <option value="Wave 5">Wave 5</option>
+          <option value="Wave 6">Wave 6</option>
+          <option value="Wave 7">Wave 7</option>
+          <option value="Wave 8">Wave 8</option>
+          <option value="Wave 9">Wave 9</option>
+          <option value="Wave 10">Wave 10</option>
+          <option value="Wave 11">Wave 11</option>
+          <option value="Wave 12">Wave 12</option>
+          <option value="Wave 13">Wave 13</option>
+          <option value="Wave 14">Wave 14</option>
+          <option value="Wave 15">Wave 15</option>
+          <option value="Wave 16">Wave 16</option>
+          <option value="Wave 17">Wave 17</option>
+          <option value="Wave 18">Wave 18</option>
+          <option value="Wave 19">Wave 19</option>
+          <option value="Wave 20">Wave 20</option>
+        </select>
+        <div class="field-hint">Your batch / training wave number</div>
+      </div>
+
       <div class="loading-bar" id="lbar"><div class="loading-fill"></div></div>
       <button class="btn-login" id="btn-login" onclick="doLogin()">Sign In →</button>
     </div>
@@ -260,7 +327,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <!-- ═══ APP ═══ -->
 <div id="app-view" class="view">
   <div class="topbar">
-    <div class="top-brand">⏱Time Hub</div>
+    <div class="top-brand">⏱ Time Hub</div>
     <div class="top-right">
       <div class="agent-chip">
         <div class="agent-av" id="top-av">—</div>
@@ -269,6 +336,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <div class="agent-id-sm" id="top-id">—</div>
         </div>
       </div>
+      <div class="top-meta" id="top-meta"></div>
       <button class="btn-out-sm" onclick="doLogout()">Logout</button>
     </div>
   </div>
@@ -310,7 +378,17 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <div class="cnt" id="today-cnt">0</div>
         </div>
         <table class="tbl">
-          <thead><tr><th>WF Onboarding ID</th><th>Full Name</th><th>Type</th><th>Time</th><th>Date</th></tr></thead>
+          <thead>
+            <tr>
+              <th>WF Onboarding ID</th>
+              <th>Full Name</th>
+              <th>Role</th>
+              <th>Wave</th>
+              <th>Location</th>
+              <th>Type</th>
+              <th>Time</th>
+            </tr>
+          </thead>
           <tbody id="today-tbody"></tbody>
         </table>
       </div>
@@ -334,7 +412,18 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
       <div class="sec-card">
         <div class="sec-head"><div class="sec-title">Today's Attendance</div></div>
         <table class="tbl">
-          <thead><tr><th>WF Onboarding ID</th><th>Full Name</th><th>Clock In</th><th>Clock Out</th><th>Hours</th></tr></thead>
+          <thead>
+            <tr>
+              <th>WF Onboarding ID</th>
+              <th>Full Name</th>
+              <th>Role</th>
+              <th>Wave</th>
+              <th>Location</th>
+              <th>Clock In</th>
+              <th>Clock Out</th>
+              <th>Hours</th>
+            </tr>
+          </thead>
           <tbody id="admin-attend"></tbody>
         </table>
       </div>
@@ -361,8 +450,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
 <script>
 /* ══════════════════════════════════════
-   CONFIG — update clockFlowUrl after
-   creating Power Automate Flow 2
+   CONFIG
 ══════════════════════════════════════ */
 const CFG = {
   dataUrl:      './data/payroll.json',
@@ -411,31 +499,44 @@ function startClock() {
 }
 
 /* ══════════════════════════════════════
-   LOGIN — accepts WF Onboarding ID or EID
+   LOGIN
 ══════════════════════════════════════ */
 function doLogin() {
-  const rawId = document.getElementById('inp-id').value.trim();
-  const errEl = document.getElementById('login-err');
-  const btn   = document.getElementById('btn-login');
+  const rawId    = document.getElementById('inp-id').value.trim();
+  const role     = document.getElementById('inp-role').value;
+  const location = document.getElementById('inp-location').value;
+  const wave     = document.getElementById('inp-wave').value;
+  const errEl    = document.getElementById('login-err');
+  const btn      = document.getElementById('btn-login');
 
   errEl.classList.remove('show');
-  document.getElementById('inp-id').classList.remove('shake');
+  ['inp-id','inp-role','inp-location','inp-wave'].forEach(id =>
+    document.getElementById(id).classList.remove('shake')
+  );
 
   if (!rawId) {
     showLoginErr('Please enter your WF Onboarding ID or Employee ID (EID).');
-    shake('inp-id');
-    return;
+    shake('inp-id'); return;
+  }
+  if (!role) {
+    showLoginErr('Please select your role — TSR or CSR.');
+    shake('inp-role'); return;
+  }
+  if (!location) {
+    showLoginErr('Please select your site location — Cebu or Manila.');
+    shake('inp-location'); return;
+  }
+  if (!wave) {
+    showLoginErr('Please select your wave (Wave 1 – Wave 20).');
+    shake('inp-wave'); return;
   }
 
-  // Guard: data not loaded yet
   if (!S.data || !S.data.employees || S.data.employees.length === 0) {
     showLoginErr('Agent data is still loading. Please wait a moment and try again.');
-    shake('inp-id');
-    return;
+    shake('inp-id'); return;
   }
 
   const normId = rawId.toUpperCase().trim();
-
   const emp = S.data.employees.find(e =>
     e.id.toUpperCase() === normId ||
     (e.eid && e.eid.toUpperCase() === normId)
@@ -446,14 +547,14 @@ function doLogin() {
 
   if (!emp) {
     showLoginErr('ID not found. Please check your WF Onboarding ID or EID, or contact your payroll admin.');
-    shake('inp-id');
-    return;
+    shake('inp-id'); return;
   }
 
   btn.disabled = true;
   document.getElementById('lbar').classList.add('show');
   setTimeout(() => {
-    S.user = emp;
+    // Merge session metadata into user object
+    S.user = { ...emp, role, location, wave };
     btn.disabled = false;
     document.getElementById('lbar').classList.remove('show');
     enterApp();
@@ -483,6 +584,14 @@ function enterApp() {
   document.getElementById('top-av').textContent   = initials(u.name);
   document.getElementById('top-name').textContent = u.name;
   document.getElementById('top-id').textContent   = u.id;
+
+  // Render role / wave / location badges in topbar
+  document.getElementById('top-meta').innerHTML = `
+    <span class="meta-badge meta-role">${u.role}</span>
+    <span class="meta-badge meta-wave">${u.wave}</span>
+    <span class="meta-badge meta-loc">📍 ${u.location}</span>
+  `;
+
   if (u.isAdmin) document.querySelector('.admin-tab').style.display = 'block';
   switchTab('clock');
   renderClock();
@@ -494,10 +603,14 @@ function doLogout() {
   S.user = null; S.session = [];
   document.getElementById('app-view').classList.remove('active');
   document.getElementById('login-view').classList.add('active');
-  document.getElementById('inp-id').value = '';
-  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-id').value       = '';
+  document.getElementById('inp-name').value     = '';
+  document.getElementById('inp-role').value     = '';
+  document.getElementById('inp-location').value = '';
+  document.getElementById('inp-wave').value     = '';
   document.getElementById('login-err').classList.remove('show');
   document.querySelector('.admin-tab').style.display = 'none';
+  document.getElementById('top-meta').innerHTML = '';
 }
 
 /* ══════════════════════════════════════
@@ -509,7 +622,7 @@ function switchTab(id) {
 }
 
 /* ══════════════════════════════════════
-   CLOCK
+   CLOCK RENDER
 ══════════════════════════════════════ */
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 
@@ -528,7 +641,6 @@ function renderClock() {
   const last      = clocks[clocks.length - 1];
   const clockedIn = last && last.clockType === 'Clock In';
 
-  // Status pill
   const dot = document.getElementById('p-dot');
   const ptx = document.getElementById('p-txt');
   if (clockedIn) {
@@ -545,27 +657,26 @@ function renderClock() {
   document.getElementById('btn-in').disabled  = clockedIn;
   document.getElementById('btn-out').disabled = !clockedIn;
 
-  // Table
   document.getElementById('today-cnt').textContent = clocks.length;
   const tbody = document.getElementById('today-tbody');
   if (!clocks.length) {
-    tbody.innerHTML = `<tr class="empty"><td colspan="5">No records yet for today</td></tr>`;
+    tbody.innerHTML = `<tr class="empty"><td colspan="7">No records yet for today</td></tr>`;
   } else {
     tbody.innerHTML = clocks.map(r => `
       <tr>
-        <td style="font-family:var(--mono)">${r.employeeId}</td>
+        <td style="font-family:var(--mono);font-size:12px">${r.employeeId}</td>
         <td>${r.agentName}</td>
+        <td><span class="meta-badge meta-role">${r.role||'—'}</span></td>
+        <td style="font-family:var(--mono);font-size:11px;color:var(--amber)">${r.wave||'—'}</td>
+        <td><span class="meta-badge meta-loc" style="font-size:10px">📍 ${r.location||'—'}</span></td>
         <td><span class="badge ${r.clockType==='Clock In'?'b-in':'b-out'}">${r.clockType}</span></td>
-        <td style="font-family:var(--mono)">${fmtT(r.timestamp)}</td>
-        <td style="font-family:var(--mono);color:var(--muted)">${r.workDate}</td>
+        <td style="font-family:var(--mono);font-size:12px">${fmtT(r.timestamp)}</td>
       </tr>`).join('');
   }
 }
 
 /* ══════════════════════════════════════
    CLOCK ACTION
-   Rule: Block duplicate Clock In on
-   SAME DAY only. Different day = allow.
 ══════════════════════════════════════ */
 async function doClock(type) {
   const today  = todayStr();
@@ -590,6 +701,9 @@ async function doClock(type) {
     agentName:   S.user.name,
     department:  S.user.department,
     position:    S.user.position,
+    role:        S.user.role,
+    wave:        S.user.wave,
+    location:    S.user.location,
     clockType:   type,
     timestamp:   now.toISOString(),
     workDate:    today
@@ -658,7 +772,8 @@ function openSlip(id) {
   if (!e) return;
   const p = (S.data.payPeriods||[]).find(x => x.id === e.periodId) || {};
   document.getElementById('m-title').textContent = p.title || e.periodId;
-  document.getElementById('m-sub').textContent   = `${S.user.name} · ${S.user.id} · ${S.user.position}`;
+  document.getElementById('m-sub').textContent   =
+    `${S.user.name} · ${S.user.id} · ${S.user.role} · ${S.user.wave} · ${S.user.location}`;
 
   const row = (lbl, val, cls='') =>
     `<div class="m-row ${cls}"><span class="ml">${lbl}</span><span class="mv">${val}</span></div>`;
@@ -706,16 +821,22 @@ function renderAdmin() {
 
   document.getElementById('admin-agents').innerHTML = emps.map(e => `
     <tr>
-      <td style="font-family:var(--mono)">${e.id}</td>
+      <td style="font-family:var(--mono);font-size:12px">${e.id}</td>
       <td>${e.name}${e.isAdmin?' <span class="badge b-admin">Admin</span>':''}</td>
       <td>${e.department||'—'}</td>
       <td>${e.position||'—'}</td>
       <td><span class="badge ${present.includes(e.id)?'b-present':'b-absent'}">${present.includes(e.id)?'Present':'Absent'}</span></td>
     </tr>`).join('');
 
+  // Build attendance map
   const byEmp = {};
   allRec.forEach(r => {
-    if (!byEmp[r.employeeId]) byEmp[r.employeeId] = { name: r.agentName || r.employeeId };
+    if (!byEmp[r.employeeId]) byEmp[r.employeeId] = {
+      name:     r.agentName || r.employeeId,
+      role:     r.role     || '—',
+      wave:     r.wave     || '—',
+      location: r.location || '—'
+    };
     if (r.clockType === 'Clock In')  byEmp[r.employeeId].in  = r.timestamp;
     if (r.clockType === 'Clock Out') byEmp[r.employeeId].out = r.timestamp;
   });
@@ -723,18 +844,24 @@ function renderAdmin() {
   const rows = Object.entries(byEmp).map(([eid, d]) => {
     const inT  = d.in  ? fmtT(d.in)  : '—';
     const outT = d.out ? fmtT(d.out) : '—';
-    const hrs  = d.in && d.out ? ((new Date(d.out)-new Date(d.in))/3600000).toFixed(2)+'h' : '—';
+    const hrs  = d.in && d.out
+      ? ((new Date(d.out)-new Date(d.in))/3600000).toFixed(2)+'h'
+      : '—';
     return `<tr>
-      <td style="font-family:var(--mono)">${eid}</td>
+      <td style="font-family:var(--mono);font-size:12px">${eid}</td>
       <td>${d.name}</td>
-      <td style="font-family:var(--mono)">${inT}</td>
-      <td style="font-family:var(--mono)">${outT}</td>
+      <td><span class="meta-badge meta-role">${d.role}</span></td>
+      <td style="font-family:var(--mono);font-size:11px;color:var(--amber)">${d.wave}</td>
+      <td><span class="meta-badge meta-loc" style="font-size:10px">📍 ${d.location}</span></td>
+      <td style="font-family:var(--mono);font-size:12px">${inT}</td>
+      <td style="font-family:var(--mono);font-size:12px">${outT}</td>
       <td style="font-family:var(--mono);color:var(--green)">${hrs}</td>
     </tr>`;
   });
+
   document.getElementById('admin-attend').innerHTML = rows.length
     ? rows.join('')
-    : `<tr class="empty"><td colspan="5">No clock records today</td></tr>`;
+    : `<tr class="empty"><td colspan="8">No clock records today</td></tr>`;
 }
 
 /* ══════════════════════════════════════
