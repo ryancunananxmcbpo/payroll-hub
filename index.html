@@ -456,8 +456,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 ══════════════════════════════════════ */
 const CFG = {
   dataUrl:      './data/payroll.json',
-  clockFlowUrl: '',   // paste HTTP trigger URL here when ready
-  liveSync:     false // set to true once you have the correct Power Automate HTTP trigger URL
+  clockFlowUrl: 'https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA',
+  liveSync:     false   // set to true once you paste the correct HTTP trigger URL above
 };
 
 /* ══════════════════════════════════════
@@ -1006,53 +1006,6 @@ function toast(msg, type='ok') {
   el.className = `toast ${type} show`;
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.remove('show'), 3800);
-}
-
-
-/* ══════════════════════════════════════
-  ADD AGENT (Admin only)
-══════════════════════════════════════ */
-function toggleAddAgent() {
-  const form = document.getElementById('add-agent-form');
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
-}
-
-function doAddAgent() {
-  const wfid  = document.getElementById('aa-wfid').value.trim();
-  const eid   = document.getElementById('aa-eid').value.trim() || null;
-  const name  = document.getElementById('aa-name').value.trim();
-  const dept  = document.getElementById('aa-dept').value.trim() || 'Support';
-  const pos   = document.getElementById('aa-pos').value.trim() || 'Agent';
-  const errEl = document.getElementById('aa-err');
-
-  errEl.style.display = 'none';
-
-  if (!wfid) { errEl.textContent = '⚠ WF Onboarding ID is required.'; errEl.style.display='block'; return; }
-  if (!name) { errEl.textContent = '⚠ Full Name is required.'; errEl.style.display='block'; return; }
-
-  const norm = wfid.toUpperCase();
-  const exists = (S.data.employees || []).find(e =>
-    e.id.toUpperCase() === norm || (e.eid && e.eid.toUpperCase() === norm)
-  );
-  if (exists) { errEl.textContent = '⚠ ID already exists: ' + exists.name; errEl.style.display='block'; return; }
-
-  const newEmp = { id: wfid, eid: eid, name: name, department: dept, position: pos, isAdmin: false };
-  S.data.employees.push(newEmp);
-
-  // Clear form
-  ['aa-wfid','aa-eid','aa-name'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('aa-dept').value = 'Support';
-  document.getElementById('aa-pos').value = 'Agent';
-
-  renderAdmin();
-  toast(`${name} added successfully. Download updated payroll.json to save permanently.`, 'ok');
-
-  // Offer JSON download
-  const blob = new Blob([JSON.stringify(S.data, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'payroll.json';
-  a.click();
 }
 
 document.addEventListener('keydown', e => {
