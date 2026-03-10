@@ -409,6 +409,57 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 
     <!-- ADMIN PANEL -->
     <div class="panel" id="panel-admin">
+
+      <!-- ADD AGENT CARD -->
+      <div class="sec-card" id="add-agent-card" style="margin-bottom:20px">
+        <div class="sec-head" style="cursor:pointer" onclick="toggleAddAgent()">
+          <div class="sec-title">➕ Add New Agent</div>
+          <span id="aa-toggle-lbl" style="font-family:var(--mono);font-size:11px;color:var(--green)">▼ Expand</span>
+        </div>
+        <div id="add-agent-form" style="display:none;padding:24px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+            <div>
+              <label class="field-label" style="display:block;margin-bottom:6px">WF Onboarding ID *</label>
+              <input id="aa-wfid" class="field-input" placeholder="e.g. XMC WF-20261999" />
+            </div>
+            <div>
+              <label class="field-label" style="display:block;margin-bottom:6px">EID (optional)</label>
+              <input id="aa-eid" class="field-input" placeholder="e.g. K-0026-999" />
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+            <div style="grid-column:span 2">
+              <label class="field-label" style="display:block;margin-bottom:6px">Full Name *</label>
+              <input id="aa-name" class="field-input" placeholder="e.g. Juan Dela Cruz" />
+            </div>
+            <div>
+              <label class="field-label" style="display:block;margin-bottom:6px">Department</label>
+              <input id="aa-dept" class="field-input" placeholder="Support" />
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
+            <div>
+              <label class="field-label" style="display:block;margin-bottom:6px">Position</label>
+              <input id="aa-pos" class="field-input" placeholder="Agent" />
+            </div>
+            <div style="display:flex;align-items:flex-end">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);padding-bottom:4px">
+                <input type="checkbox" id="aa-isadmin" style="accent-color:var(--blue);width:15px;height:15px" />
+                Make this user an Admin
+              </label>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px">
+            <button onclick="doAddAgent()" style="background:var(--green);color:#07090f;border:none;border-radius:10px;padding:12px 24px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;">
+              + Add Agent
+            </button>
+            <button onclick="toggleAddAgent()" style="background:transparent;border:1px solid var(--bdr);border-radius:10px;padding:12px 20px;font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer;">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="stat-grid" id="admin-stats"></div>
       <div class="sec-card" style="margin-bottom:20px">
         <div class="sec-head"><div class="sec-title">All Agents</div></div>
@@ -457,7 +508,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 const CFG = {
   dataUrl:      './data/payroll.json',
   clockFlowUrl: 'https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA',
-  liveSync:     false // ← set to true once you replace the URL above with the HTTP trigger URL (not manual trigger)
+  liveSync:     true  // Power Automate sync enabled
 };
 
 /* ══════════════════════════════════════
@@ -1047,40 +1098,41 @@ function toggleAdmin(empId, makeAdmin) {
 ══════════════════════════════════════ */
 function toggleAddAgent() {
   const form = document.getElementById('add-agent-form');
-  form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  const lbl  = document.getElementById('aa-toggle-lbl');
+  const open = form.style.display === 'none';
+  form.style.display = open ? 'block' : 'none';
+  if (lbl) lbl.textContent = open ? '▲ Collapse' : '▼ Expand';
 }
 
 function doAddAgent() {
-  const wfid  = document.getElementById('aa-wfid').value.trim();
-  const eid   = document.getElementById('aa-eid').value.trim() || null;
-  const name  = document.getElementById('aa-name').value.trim();
-  const dept  = document.getElementById('aa-dept').value.trim() || 'Support';
-  const pos   = document.getElementById('aa-pos').value.trim() || 'Agent';
-  const errEl = document.getElementById('aa-err');
+  const wfid    = document.getElementById('aa-wfid').value.trim();
+  const eid     = document.getElementById('aa-eid').value.trim() || null;
+  const name    = document.getElementById('aa-name').value.trim();
+  const dept    = document.getElementById('aa-dept').value.trim() || 'Support';
+  const pos     = document.getElementById('aa-pos').value.trim() || 'Agent';
+  const isAdmin = document.getElementById('aa-isadmin').checked;
 
-  errEl.style.display = 'none';
-
-  if (!wfid) { errEl.textContent = '⚠ WF Onboarding ID is required.'; errEl.style.display='block'; return; }
-  if (!name) { errEl.textContent = '⚠ Full Name is required.'; errEl.style.display='block'; return; }
+  if (!wfid) { toast('⚠ WF Onboarding ID is required.', 'err'); return; }
+  if (!name) { toast('⚠ Full Name is required.', 'err'); return; }
 
   const norm = wfid.toUpperCase();
   const exists = (S.data.employees || []).find(e =>
     e.id.toUpperCase() === norm || (e.eid && e.eid.toUpperCase() === norm)
   );
-  if (exists) { errEl.textContent = '⚠ ID already exists: ' + exists.name; errEl.style.display='block'; return; }
+  if (exists) { toast('⚠ ID already exists: ' + exists.name, 'err'); return; }
 
-  const newEmp = { id: wfid, eid: eid, name: name, department: dept, position: pos, isAdmin: false };
+  const newEmp = { id: wfid, eid, name, department: dept, position: pos, isAdmin };
   S.data.employees.push(newEmp);
 
   // Clear form
-  ['aa-wfid','aa-eid','aa-name'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('aa-dept').value = 'Support';
-  document.getElementById('aa-pos').value = 'Agent';
+  ['aa-wfid','aa-eid','aa-name','aa-dept','aa-pos'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('aa-isadmin').checked = false;
+  toggleAddAgent(); // collapse form after adding
 
   renderAdmin();
-  toast(`${name} added successfully. Download updated payroll.json to save permanently.`, 'ok');
+  toast(`${name} added${isAdmin?' as Admin':''} — downloading updated payroll.json`, 'ok');
 
-  // Offer JSON download
+  // Auto-download updated payroll.json
   const blob = new Blob([JSON.stringify(S.data, null, 2)], {type:'application/json'});
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
