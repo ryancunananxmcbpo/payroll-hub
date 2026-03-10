@@ -111,12 +111,12 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .agent-av{width:26px;height:26px;border-radius:50%;background:var(--gd);border:1px solid rgba(0,229,160,0.28);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green);font-family:var(--mono);flex-shrink:0;}
 .agent-name-sm{font-size:13px;font-weight:600;line-height:1.2;}
 .agent-id-sm{font-size:10px;color:var(--muted);font-family:var(--mono);}
+.top-meta{display:flex;align-items:center;gap:6px;}
 
 .meta-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;font-family:var(--mono);text-transform:uppercase;letter-spacing:0.06em;border:1px solid;white-space:nowrap;}
 .meta-role{background:var(--bd);border-color:rgba(77,159,255,0.3);color:var(--blue);}
 .meta-wave{background:var(--ad);border-color:rgba(255,179,64,0.3);color:var(--amber);}
 .meta-loc{background:var(--gd);border-color:rgba(0,229,160,0.25);color:var(--green);}
-.top-meta{display:flex;align-items:center;gap:6px;}
 
 .btn-out-sm{background:transparent;border:1px solid var(--bdr);border-radius:8px;padding:6px 14px;color:var(--muted);font-size:11px;font-family:var(--mono);cursor:pointer;transition:all 0.15s;letter-spacing:0.05em;flex-shrink:0;}
 .btn-out-sm:hover{border-color:var(--red);color:var(--red);}
@@ -155,7 +155,7 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .btn-ci:hover:not(:disabled){background:var(--green);color:var(--bg);box-shadow:0 8px 24px rgba(0,229,160,0.2);}
 .btn-co{background:var(--rd);border-color:var(--red);color:var(--red);}
 .btn-co:hover:not(:disabled){background:var(--red);color:#fff;box-shadow:0 8px 24px rgba(255,79,107,0.2);}
-.btn-clock:disabled{opacity:0.15;cursor:not-allowed;pointer-events:none;}
+.btn-clock:disabled{opacity:0.22;cursor:not-allowed;pointer-events:none;}
 
 .warn-box{display:none;align-items:flex-start;gap:12px;background:var(--ad);border:1px solid rgba(255,179,64,0.28);border-radius:var(--r);padding:14px 18px;margin-top:16px;font-size:13px;color:var(--amber);font-family:var(--mono);line-height:1.6;}
 .warn-box.show{display:flex;}
@@ -226,6 +226,20 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 .st-lbl{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:10px;}
 .st-val{font-size:30px;font-weight:800;font-family:var(--mono);}
 .st-sub{font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono);}
+
+/* ── ADD AGENT FORM ── */
+.aa-form-inner{padding:24px;border-top:1px solid var(--bdr);}
+.aa-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.aa-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px;}
+.aa-label{display:block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.aa-actions{display:flex;gap:10px;margin-top:18px;}
+.btn-aa-add{background:var(--green);color:#07090f;border:none;border-radius:10px;padding:11px 22px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;transition:opacity 0.15s;}
+.btn-aa-add:hover{opacity:0.85;}
+.btn-aa-cancel{background:transparent;border:1px solid var(--bdr);border-radius:10px;padding:11px 18px;font-family:var(--mono);font-size:11px;color:var(--muted);cursor:pointer;transition:all 0.15s;}
+.btn-aa-cancel:hover{border-color:var(--red);color:var(--red);}
+.aa-admin-row{display:flex;align-items:center;gap:8px;margin-top:14px;}
+.aa-admin-row input[type=checkbox]{accent-color:var(--blue);width:15px;height:15px;cursor:pointer;}
+.aa-admin-row label{font-family:var(--mono);font-size:11px;color:var(--muted);cursor:pointer;}
 
 /* ── TOAST ── */
 .toast{position:fixed;bottom:28px;right:28px;background:var(--s2);border:1px solid var(--bdr2);border-radius:var(--r);padding:13px 18px;font-family:var(--mono);font-size:13px;z-index:9000;max-width:340px;transform:translateY(20px) scale(0.96);opacity:0;pointer-events:none;transition:all 0.25s ease;display:flex;align-items:center;gap:10px;}
@@ -411,63 +425,68 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
     <div class="panel" id="panel-admin">
 
       <!-- ADD AGENT CARD -->
-      <div class="sec-card" id="add-agent-card" style="margin-bottom:20px">
+      <div class="sec-card" style="margin-bottom:20px">
         <div class="sec-head" style="cursor:pointer" onclick="toggleAddAgent()">
           <div class="sec-title">➕ Add New Agent</div>
           <span id="aa-toggle-lbl" style="font-family:var(--mono);font-size:11px;color:var(--green)">▼ Expand</span>
         </div>
-        <div id="add-agent-form" style="display:none;padding:24px">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
-            <div>
-              <label class="field-label" style="display:block;margin-bottom:6px">WF Onboarding ID *</label>
-              <input id="aa-wfid" class="field-input" placeholder="e.g. XMC WF-20261999" />
+        <div id="add-agent-form" style="display:none">
+          <div class="aa-form-inner">
+            <div class="aa-grid-2">
+              <div>
+                <label class="aa-label">WF Onboarding ID *</label>
+                <input id="aa-wfid" class="field-input" placeholder="e.g. XMC WF-20261999" />
+              </div>
+              <div>
+                <label class="aa-label">EID (optional)</label>
+                <input id="aa-eid" class="field-input" placeholder="e.g. K-0026-999" />
+              </div>
+            </div>
+            <div class="aa-grid-2">
+              <div style="grid-column:span 1">
+                <label class="aa-label">Full Name *</label>
+                <input id="aa-name" class="field-input" placeholder="e.g. Juan Dela Cruz" />
+              </div>
+              <div>
+                <label class="aa-label">Department</label>
+                <input id="aa-dept" class="field-input" placeholder="Support" />
+              </div>
             </div>
             <div>
-              <label class="field-label" style="display:block;margin-bottom:6px">EID (optional)</label>
-              <input id="aa-eid" class="field-input" placeholder="e.g. K-0026-999" />
+              <label class="aa-label">Position</label>
+              <input id="aa-pos" class="field-input" placeholder="Agent" style="max-width:240px" />
             </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
-            <div style="grid-column:span 2">
-              <label class="field-label" style="display:block;margin-bottom:6px">Full Name *</label>
-              <input id="aa-name" class="field-input" placeholder="e.g. Juan Dela Cruz" />
+            <div class="aa-admin-row">
+              <input type="checkbox" id="aa-isadmin" />
+              <label for="aa-isadmin">Make this user an Admin</label>
             </div>
-            <div>
-              <label class="field-label" style="display:block;margin-bottom:6px">Department</label>
-              <input id="aa-dept" class="field-input" placeholder="Support" />
+            <div class="aa-actions">
+              <button class="btn-aa-add" onclick="doAddAgent()">+ Add Agent</button>
+              <button class="btn-aa-cancel" onclick="toggleAddAgent()">Cancel</button>
             </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px">
-            <div>
-              <label class="field-label" style="display:block;margin-bottom:6px">Position</label>
-              <input id="aa-pos" class="field-input" placeholder="Agent" />
-            </div>
-            <div style="display:flex;align-items:flex-end">
-              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--mono);font-size:11px;color:var(--muted);padding-bottom:4px">
-                <input type="checkbox" id="aa-isadmin" style="accent-color:var(--blue);width:15px;height:15px" />
-                Make this user an Admin
-              </label>
-            </div>
-          </div>
-          <div style="display:flex;gap:10px">
-            <button onclick="doAddAgent()" style="background:var(--green);color:#07090f;border:none;border-radius:10px;padding:12px 24px;font-family:var(--sans);font-size:14px;font-weight:700;cursor:pointer;">
-              + Add Agent
-            </button>
-            <button onclick="toggleAddAgent()" style="background:transparent;border:1px solid var(--bdr);border-radius:10px;padding:12px 20px;font-family:var(--mono);font-size:12px;color:var(--muted);cursor:pointer;">
-              Cancel
-            </button>
           </div>
         </div>
       </div>
 
       <div class="stat-grid" id="admin-stats"></div>
+
       <div class="sec-card" style="margin-bottom:20px">
         <div class="sec-head"><div class="sec-title">All Agents</div></div>
         <table class="tbl">
-          <thead><tr><th>WF Onboarding ID</th><th>Full Name</th><th>Department</th><th>Position</th><th>Today</th><th>Actions</th></tr></thead>
+          <thead>
+            <tr>
+              <th>WF Onboarding ID</th>
+              <th>Full Name</th>
+              <th>Department</th>
+              <th>Position</th>
+              <th>Today</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
           <tbody id="admin-agents"></tbody>
         </table>
       </div>
+
       <div class="sec-card">
         <div class="sec-head"><div class="sec-title">Today's Attendance</div></div>
         <table class="tbl">
@@ -480,7 +499,8 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
           <tbody id="admin-attend"></tbody>
         </table>
       </div>
-    </div>
+
+    </div><!-- /panel-admin -->
 
   </div>
 </div>
@@ -504,11 +524,16 @@ body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradie
 <script>
 /* ══════════════════════════════════════
    CONFIG
+   ─────────────────────────────────────
+   clockFlowUrl: replace with the URL from
+   "When an HTTP request is received" trigger
+   (not the manual trigger URL).
+   Then set liveSync: true to enable sync.
 ══════════════════════════════════════ */
 const CFG = {
   dataUrl:      './data/payroll.json',
   clockFlowUrl: 'https://default4a10795dedc04a878f98324334032c.e2.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/7c3d918211c041a7b1c6bbac10874394/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Tn9BZi66v3CRAKRYvV0zynakH4E6Myv4GxWzcuh1HHA',
-  liveSync:     true  // Power Automate sync enabled
+  liveSync:     false  // ← flip to true once you replace the URL above with the HTTP trigger URL
 };
 
 /* ══════════════════════════════════════
@@ -518,38 +543,18 @@ const S = { data: null, user: null, session: [] };
 
 /* ══════════════════════════════════════
    PERSISTENT CLOCK LOCK  (localStorage)
-   ─────────────────────────────────────
    Key:   timehub_{employeeId}_{YYYY-MM-DD}
-   Value: { clockedIn: bool, ts: ISO, role, wave, location }
-
-   Written immediately on Clock In / Clock Out,
-   so a page refresh or connection drop does NOT
-   let the agent clock in a second time.
-   The lock auto-expires: if the stored date ≠ today,
-   it is ignored and the agent starts fresh.
+   Value: { clockedIn: bool, ts: ISO }
+   Auto-expires at midnight (date mismatch = ignored).
 ══════════════════════════════════════ */
-function lsKey(uid, date) {
-  return `timehub_${uid}_${date}`;
-}
+function lsKey(uid)  { return `timehub_${uid}_${todayStr()}`; }
 
 function getLock(uid) {
-  const today = todayStr();
-  try {
-    const raw = localStorage.getItem(lsKey(uid, today));
-    return raw ? JSON.parse(raw) : null;
-  } catch { return null; }
+  try { const r = localStorage.getItem(lsKey(uid)); return r ? JSON.parse(r) : null; }
+  catch { return null; }
 }
-
 function setLock(uid, payload) {
-  const today = todayStr();
-  try { localStorage.setItem(lsKey(uid, today), JSON.stringify(payload)); }
-  catch(e) { console.warn('localStorage write failed:', e); }
-}
-
-function clearLock(uid) {
-  const today = todayStr();
-  try { localStorage.removeItem(lsKey(uid, today)); }
-  catch {}
+  try { localStorage.setItem(lsKey(uid), JSON.stringify(payload)); } catch {}
 }
 
 /* ══════════════════════════════════════
@@ -618,8 +623,6 @@ function doLogin() {
     (e.eid && e.eid.toUpperCase() === normId)
   );
 
-  console.log('Login attempt:', normId, '→', emp ? emp.name : 'NOT FOUND');
-
   if (!emp) {
     showLoginErr('ID not found. Please check your WF Onboarding ID or EID, or contact your payroll admin.');
     shake('inp-id'); return;
@@ -668,7 +671,7 @@ function enterApp() {
   renderClock();
   renderSlips();
   if (u.isAdmin) renderAdmin();
-  startAutoCoWatcher(); // begin 9-hour auto clock-out monitoring
+  startAutoCoWatcher();
 }
 
 function doLogout() {
@@ -693,11 +696,8 @@ function switchTab(id) {
 
 /* ══════════════════════════════════════
    CLOCK STATE
-   ─────────────────────────────────────
-   Merges two sources (highest priority first):
-     1. localStorage lock  ← survives page reload / timeout
-     2. S.data.clockRecords + S.session ← all known records
-   If ANY source says "clocked in today", the agent is locked.
+   Merges localStorage lock + session records.
+   Lock survives page refresh; auto-expires midnight.
 ══════════════════════════════════════ */
 function todayStr() { return new Date().toISOString().split('T')[0]; }
 
@@ -716,33 +716,24 @@ function getClockState() {
     .filter(r => r.workDate === today)
     .sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
 
-  const lastRec    = clocks[clocks.length - 1] || null;
-  const recClocked = lastRec && lastRec.clockType === 'Clock In';
-  const clockedIn  = recClocked || (lock && lock.clockedIn);
-  const lastTs     = lastRec
-    ? lastRec.timestamp
-    : (lock && lock.clockedIn ? lock.ts : null);
+  const lastRec   = clocks[clocks.length - 1] || null;
+  const recIn     = lastRec && lastRec.clockType === 'Clock In';
+  const clockedIn = recIn || (lock && lock.clockedIn);
+  const lastTs    = lastRec ? lastRec.timestamp : (lock && lock.clockedIn ? lock.ts : null);
 
   return { clockedIn, lastTs, clocks };
 }
 
 /* ══════════════════════════════════════
    AUTO CLOCK-OUT  (9 hours)
-   ─────────────────────────────────────
-   A 1-minute interval checks if the agent
-   has been clocked in for ≥ 9 hours.
-   If so, it fires an automatic Clock Out,
-   syncs to Power Automate, and notifies.
-   The notice bar counts down the remaining
-   time while the agent is clocked in.
 ══════════════════════════════════════ */
 const AUTO_CO_HOURS = 9;
 let _autoCoTimer = null;
 
 function startAutoCoWatcher() {
   clearInterval(_autoCoTimer);
-  _autoCoTimer = setInterval(checkAutoClockOut, 60000); // check every minute
-  checkAutoClockOut(); // immediate check on login
+  _autoCoTimer = setInterval(checkAutoClockOut, 60000);
+  checkAutoClockOut();
 }
 
 function stopAutoCoWatcher() {
@@ -754,33 +745,23 @@ function stopAutoCoWatcher() {
 function checkAutoClockOut() {
   if (!S.user) return;
   const { clockedIn, lastTs } = getClockState();
-
   if (!clockedIn || !lastTs) {
     document.getElementById('auto-co-notice').classList.remove('show');
     return;
   }
-
-  const elapsed  = (Date.now() - new Date(lastTs)) / 3600000; // hours
+  const elapsed   = (Date.now() - new Date(lastTs)) / 3600000;
   const remaining = AUTO_CO_HOURS - elapsed;
-
   if (remaining <= 0) {
-    // Trigger auto clock-out
     document.getElementById('auto-co-notice').classList.remove('show');
     doClockAction('Clock Out', true);
     return;
   }
-
-  // Show countdown notice
-  const notice = document.getElementById('auto-co-notice');
+  const notice   = document.getElementById('auto-co-notice');
   notice.classList.add('show');
-
   const remMins  = Math.floor(remaining * 60);
   const remHrs   = Math.floor(remMins / 60);
   const remMinsR = remMins % 60;
-  const remStr   = remHrs > 0
-    ? `${remHrs}h ${remMinsR}m`
-    : `${remMinsR}m`;
-
+  const remStr   = remHrs > 0 ? `${remHrs}h ${remMinsR}m` : `${remMinsR}m`;
   document.getElementById('auto-co-txt').textContent =
     `Auto clock-out in ${remStr} — system will clock you out after ${AUTO_CO_HOURS} hours.`;
 }
@@ -792,7 +773,6 @@ function renderClock() {
   const { clockedIn, lastTs, clocks } = getClockState();
   const lastRecord = clocks[clocks.length - 1] || null;
 
-  // Status pill
   const dot = document.getElementById('p-dot');
   const ptx = document.getElementById('p-txt');
   if (clockedIn && lastTs) {
@@ -806,11 +786,9 @@ function renderClock() {
     ptx.textContent = 'Not clocked in today';
   }
 
-  // Buttons
   document.getElementById('btn-in').disabled  = clockedIn;
   document.getElementById('btn-out').disabled = !clockedIn;
 
-  // Today's records table
   document.getElementById('today-cnt').textContent = clocks.length;
   const tbody = document.getElementById('today-tbody');
   if (!clocks.length) {
@@ -832,13 +810,8 @@ function renderClock() {
 
 /* ══════════════════════════════════════
    CLOCK ACTION
-   ─────────────────────────────────────
-   isAutoClockOut = true only when fired
-   by the 9-hour auto clock-out watcher.
 ══════════════════════════════════════ */
-async function doClock(type) {
-  await doClockAction(type, false);
-}
+async function doClock(type) { await doClockAction(type, false); }
 
 async function doClockAction(type, isAutoClockOut) {
   const uid   = S.user.id;
@@ -872,12 +845,8 @@ async function doClockAction(type, isAutoClockOut) {
     isAutoClockOut: isAutoClockOut
   };
 
-  // Write / clear localStorage lock
-  if (type === 'Clock In') {
-    setLock(uid, { clockedIn: true, ts: now.toISOString() });
-  } else {
-    setLock(uid, { clockedIn: false, ts: now.toISOString() });
-  }
+  // Persist lock
+  setLock(uid, { clockedIn: type === 'Clock In', ts: now.toISOString() });
 
   S.session.push(record);
   renderClock();
@@ -983,7 +952,7 @@ function closeModal(e) {
 }
 
 /* ══════════════════════════════════════
-   ADMIN
+   ADMIN — RENDER
 ══════════════════════════════════════ */
 function renderAdmin() {
   const today   = todayStr();
@@ -1007,8 +976,8 @@ function renderAdmin() {
       <td><span class="badge ${present.includes(e.id)?'b-present':'b-absent'}">${present.includes(e.id)?'Present':'Absent'}</span></td>
       <td>
         ${e.isAdmin
-          ? `<button class="btn-out-sm" onclick="toggleAdmin('${e.id}', false)" style="border-color:var(--red);color:var(--red)">Remove Admin</button>`
-          : `<button class="btn-out-sm" onclick="toggleAdmin('${e.id}', true)" style="border-color:var(--blue);color:var(--blue)">Make Admin</button>`
+          ? `<button class="btn-out-sm" onclick="toggleAdmin('${e.id}',false)" style="border-color:var(--red);color:var(--red);font-size:10px;padding:4px 10px">Remove Admin</button>`
+          : `<button class="btn-out-sm" onclick="toggleAdmin('${e.id}',true)"  style="border-color:var(--blue);color:var(--blue);font-size:10px;padding:4px 10px">Make Admin</button>`
         }
       </td>
     </tr>`).join('');
@@ -1048,6 +1017,72 @@ function renderAdmin() {
 }
 
 /* ══════════════════════════════════════
+   ADMIN — TOGGLE ADMIN STATUS
+══════════════════════════════════════ */
+function toggleAdmin(empId, makeAdmin) {
+  const emp = (S.data.employees || []).find(e => e.id === empId);
+  if (!emp) { toast('Employee not found.', 'err'); return; }
+  if (!makeAdmin && S.user && S.user.id === empId) {
+    toast('You cannot remove your own admin access.', 'err'); return;
+  }
+  emp.isAdmin = makeAdmin;
+  renderAdmin();
+  toast(makeAdmin ? `${emp.name} is now Admin.` : `${emp.name} removed from Admin.`, makeAdmin ? 'ok' : 'warn');
+  downloadPayroll();
+}
+
+/* ══════════════════════════════════════
+   ADMIN — ADD AGENT
+══════════════════════════════════════ */
+function toggleAddAgent() {
+  const form = document.getElementById('add-agent-form');
+  const lbl  = document.getElementById('aa-toggle-lbl');
+  const open = form.style.display === 'none';
+  form.style.display = open ? 'block' : 'none';
+  lbl.textContent    = open ? '▲ Collapse' : '▼ Expand';
+}
+
+function doAddAgent() {
+  const wfid    = document.getElementById('aa-wfid').value.trim();
+  const eid     = document.getElementById('aa-eid').value.trim() || null;
+  const name    = document.getElementById('aa-name').value.trim();
+  const dept    = document.getElementById('aa-dept').value.trim() || 'Support';
+  const pos     = document.getElementById('aa-pos').value.trim()  || 'Agent';
+  const isAdmin = document.getElementById('aa-isadmin').checked;
+
+  if (!wfid) { toast('WF Onboarding ID is required.', 'err'); return; }
+  if (!name) { toast('Full Name is required.', 'err'); return; }
+
+  const norm   = wfid.toUpperCase();
+  const exists = (S.data.employees || []).find(e =>
+    e.id.toUpperCase() === norm || (e.eid && e.eid.toUpperCase() === norm)
+  );
+  if (exists) { toast('ID already exists: ' + exists.name, 'err'); return; }
+
+  S.data.employees.push({ id: wfid, eid, name, department: dept, position: pos, isAdmin });
+
+  // Clear form & collapse
+  ['aa-wfid','aa-eid','aa-name','aa-dept','aa-pos'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('aa-isadmin').checked = false;
+  toggleAddAgent();
+
+  renderAdmin();
+  toast(`${name} added${isAdmin ? ' as Admin' : ''} — downloading payroll.json`, 'ok');
+  downloadPayroll();
+}
+
+/* ══════════════════════════════════════
+   DOWNLOAD PAYROLL JSON
+══════════════════════════════════════ */
+function downloadPayroll() {
+  const blob = new Blob([JSON.stringify(S.data, null, 2)], { type: 'application/json' });
+  const a    = document.createElement('a');
+  a.href     = URL.createObjectURL(blob);
+  a.download = 'payroll.json';
+  a.click();
+}
+
+/* ══════════════════════════════════════
    HELPERS
 ══════════════════════════════════════ */
 function pad(n)      { return String(n).padStart(2,'0'); }
@@ -1063,81 +1098,6 @@ function toast(msg, type='ok') {
   el.className = `toast ${type} show`;
   clearTimeout(el._t);
   el._t = setTimeout(() => el.classList.remove('show'), 3800);
-}
-
-
-
-/* ══════════════════════════════════════
-   TOGGLE ADMIN (Admin panel)
-══════════════════════════════════════ */
-function toggleAdmin(empId, makeAdmin) {
-  const emp = (S.data.employees || []).find(e => e.id === empId);
-  if (!emp) { toast('Employee not found', 'err'); return; }
-
-  // Prevent removing your own admin if you're the one logged in
-  if (!makeAdmin && S.user && S.user.id === empId) {
-    toast('You cannot remove your own admin access.', 'err');
-    return;
-  }
-
-  emp.isAdmin = makeAdmin;
-
-  renderAdmin();
-  toast(makeAdmin ? `${emp.name} is now Admin.` : `${emp.name} removed from Admin.`, makeAdmin ? 'ok' : 'warn');
-
-  // Auto-download updated payroll.json
-  const blob = new Blob([JSON.stringify(S.data, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'payroll.json';
-  a.click();
-}
-
-/* ══════════════════════════════════════
-  ADD AGENT (Admin only)
-══════════════════════════════════════ */
-function toggleAddAgent() {
-  const form = document.getElementById('add-agent-form');
-  const lbl  = document.getElementById('aa-toggle-lbl');
-  const open = form.style.display === 'none';
-  form.style.display = open ? 'block' : 'none';
-  if (lbl) lbl.textContent = open ? '▲ Collapse' : '▼ Expand';
-}
-
-function doAddAgent() {
-  const wfid    = document.getElementById('aa-wfid').value.trim();
-  const eid     = document.getElementById('aa-eid').value.trim() || null;
-  const name    = document.getElementById('aa-name').value.trim();
-  const dept    = document.getElementById('aa-dept').value.trim() || 'Support';
-  const pos     = document.getElementById('aa-pos').value.trim() || 'Agent';
-  const isAdmin = document.getElementById('aa-isadmin').checked;
-
-  if (!wfid) { toast('⚠ WF Onboarding ID is required.', 'err'); return; }
-  if (!name) { toast('⚠ Full Name is required.', 'err'); return; }
-
-  const norm = wfid.toUpperCase();
-  const exists = (S.data.employees || []).find(e =>
-    e.id.toUpperCase() === norm || (e.eid && e.eid.toUpperCase() === norm)
-  );
-  if (exists) { toast('⚠ ID already exists: ' + exists.name, 'err'); return; }
-
-  const newEmp = { id: wfid, eid, name, department: dept, position: pos, isAdmin };
-  S.data.employees.push(newEmp);
-
-  // Clear form
-  ['aa-wfid','aa-eid','aa-name','aa-dept','aa-pos'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('aa-isadmin').checked = false;
-  toggleAddAgent(); // collapse form after adding
-
-  renderAdmin();
-  toast(`${name} added${isAdmin?' as Admin':''} — downloading updated payroll.json`, 'ok');
-
-  // Auto-download updated payroll.json
-  const blob = new Blob([JSON.stringify(S.data, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'payroll.json';
-  a.click();
 }
 
 document.addEventListener('keydown', e => {
